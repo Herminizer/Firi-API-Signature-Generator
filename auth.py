@@ -6,7 +6,7 @@ import json
 
 class Authenticate:
 
-    def __init__(self, timestamp: str = None, validity='2000', secretkey: str = None, clientid: str = None,  apikey: str = None, body={}, encryption=True):
+    def __init__(self, timestamp: str = None, validity: str = '2000', secretkey: str = None, clientid: str = None, apikey: str = None, body: dict = {}, encryption: bool = True):
 
         self.timestamp = timestamp
         if not timestamp:
@@ -18,7 +18,7 @@ class Authenticate:
         self.body = body
         self.encryption = encryption
 
-    def get_headers(self):
+    def get_headers(self) -> str:
 
         if self.encryption:
             if self.clientid and self.secretkey:
@@ -47,7 +47,7 @@ class Authenticate:
             else:
                 print("Missing parameter; 'secretkey' or 'clientid'.")
 
-        if self.encryption == False:
+        if not self.encryption:
             if self.apikey:
                 headers = {
                     'Content-Type': 'application/json',
@@ -58,7 +58,7 @@ class Authenticate:
             else:
                 print("Missing parameter; 'apikey'. ")
 
-    def get_url_params(self):
+    def get_url_params(self) -> str:
         '''Generating URL-parameters. 
         Must be included in URL when using HMAC encrypted secretkey. 
         URL-parameter 'timestamp' and 'validity' must match with the one used to generate signature'''
