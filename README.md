@@ -44,7 +44,7 @@ from auth import Authenticate
 your_secret_key = 'Insert Secret Key'
 your_client_id = 'Insert ClientID'
 
-auth = Authenticate(userkey=your_secret_key, clientid=you_client_id)
+auth = Authenticate(userkey=your_secret_key, clientid=your_client_id)
 
 # Return headers:
 auth.get_headers() 
@@ -57,12 +57,11 @@ from auth import Authenticate
  
 your_api_key = 'Insert API Key'
 
-auth = Authenticate(userkey=your_api_key, encyption=False)
+auth = Authenticate(userkey=your_api_key, encryption=False)
 
 # Return headers:
 auth.get_headers() 
 ```
-Returns: 
 ### Complete headers with client-id + HMAC-encrypted signature, and custom timestamp:
 ```python
 from auth import Authenticate
