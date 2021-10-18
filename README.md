@@ -17,7 +17,7 @@ instance = Authenticate(argument, argument, ...)
 ### Required arguments: 
 For authentication using HMAC-encrypted signature and ClientID (RECOMMENDED):
 - secretkey = 'Your Secret Key'
-- clientid = 'Your ClientID
+- clientid = 'Your ClientID'
 For authentication using non-encrypted API Key. To avoid unintended use of API Key, var encryption must be set to 'False'. (NOT RECOMMENDED):
 - apikey = 'Your API Key'
 - encryption = False
