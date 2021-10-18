@@ -49,7 +49,7 @@ auth = Authenticate(userkey=your_secret_key, clientid=you_client_id)
 # Return headers:
 auth.get_headers() 
 # Return URL parameters: 
-auth.get_params()
+auth.get_url_params()
 ```
 ### Complete headers with non-encrypted api-key (NOT RECOMMENDED): 
 ```python
@@ -71,7 +71,7 @@ your_secret_key = 'Insert Secret Key'
 your_client_id = 'Insert ClientID'
 custom_timestamp = '1671243840'
 
-auth = Authenticate(secretkey=your_secret_key, client_id=your_client_id, timestamp=)
+auth = Authenticate(secretkey=your_secret_key, client_id=your_client_id, timestamp=custom_timestamp)
 
 # Return headers: 
 auth.get_headers()
