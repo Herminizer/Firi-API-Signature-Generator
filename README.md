@@ -1,6 +1,7 @@
 # Firi API signature generator
 
 Generates complete http headers and URL-parameters for authentication required by the Firi API.
+
 ## How to use
 
 1. Import class: Authenticate from module: auth
@@ -16,9 +17,12 @@ instance = Authenticate(argument, argument, ...)
 
 ### Required arguments: 
 For authentication using HMAC-encrypted signature and ClientID (RECOMMENDED):
+
 - secretkey = 'Your Secret Key'
 - clientid = 'Your ClientID'
+
 For authentication using non-encrypted API Key. To avoid unintended use of API Key, var encryption must be set to 'False'. (NOT RECOMMENDED):
+
 - apikey = 'Your API Key'
 - encryption = False
 
@@ -32,6 +36,7 @@ Optional arguments are customizable parameters, but are not required.
 
 
 ## Example Usage
+
 ### Complete headers with client-id, HMAC-encrypted user-signature and required URL-parameters:
 ```python
 from auth import Authenticate
