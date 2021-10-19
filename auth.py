@@ -6,7 +6,9 @@ import json
 
 class Authenticate:
 
-    def __init__(self, timestamp: str = None, validity: str = '2000', secretkey: str = None, clientid: str = None, apikey: str = None, body: dict = {}, encryption: bool = True):
+    def __init__(self, timestamp: str = None, validity: str = '2000',
+                 secretkey: str = None, clientid: str = None,
+                 apikey: str = None, body: dict = {}, encryption: bool = True):
 
         self.timestamp = timestamp
         if not timestamp:
@@ -59,9 +61,10 @@ class Authenticate:
                 print("Missing parameter; 'apikey'. ")
 
     def get_url_params(self) -> str:
-        '''Generating URL-parameters. 
-        Must be included in URL when using HMAC encrypted secretkey. 
-        URL-parameter 'timestamp' and 'validity' must match with the one used to generate signature'''
+        '''Generating URL-parameters.
+        Must be included in URL when using HMAC encrypted secretkey.
+        URL-parameter 'timestamp' and 'validity' must match with the
+        one used to generate signature'''
 
         url = f"?timestamp={self.timestamp}&validity={self.validity}"
 
