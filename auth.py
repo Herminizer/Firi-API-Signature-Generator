@@ -8,7 +8,7 @@ class Authenticate:
 
     def __init__(self, timestamp: str = None, validity: str = '2000',
                  secretkey: str = None, clientid: str = None,
-                 apikey: str = None, body: dict = {}, encryption: bool = True):
+                 apikey: str = None, encryption: bool = True):
 
         self.timestamp = timestamp
         if not timestamp:
@@ -17,22 +17,22 @@ class Authenticate:
         self.secretkey = secretkey
         self.clientid = clientid
         self.apikey = apikey
-        self.body = body
         self.encryption = encryption
 
     def get_headers(self) -> str:
 
         if self.encryption:
             if self.clientid and self.secretkey:
+                body = {}
                 try:
                     '''Generating signature'''
                     bSecretKey = bytes(self.secretkey, encoding='utf8')
                     signature = hmac.new(bSecretKey, digestmod=hashlib.sha256)
 
-                    self.body['timestamp'] = self.timestamp
-                    self.body['validity'] = self.validity
+                    body['timestamp'] = self.timestamp
+                    body['validity'] = self.validity
 
-                    sign_body = json.dumps(self.body, separators=(',', ':'))
+                    sign_body = json.dumps(body, separators=(',', ':'))
                     bBody = bytes(sign_body, encoding='utf8')
 
                     signature.update(bBody)
@@ -59,6 +59,21 @@ class Authenticate:
                 return headers
             else:
                 print("Missing parameter; 'apikey'. ")
+
+    def get_signature(self) -> str:
+        body = {}
+        try:
+            '''Generating signature'''
+            bSecretKey = bytes(self.secretkey, encoding='utf8')
+            signature = hmac.new(bSecretKey, digestmod=hashlib.sha256)
+            body['timestamp'] = self.timestamp
+            body['validity'] = self.validity
+            sign_body = json.dumps(body, separators=(',', ':'))
+            bBody = bytes(sign_body, encoding='utf8')
+            signature.update(bBody)
+            return signature.hexdigest()
+        except Exception as e:
+            return e
 
     def get_url_params(self) -> str:
         '''Generating URL-parameters.

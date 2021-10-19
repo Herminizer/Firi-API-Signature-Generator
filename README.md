@@ -51,6 +51,22 @@ auth.get_headers()
 # Return URL parameters: 
 auth.get_url_params()
 ```
+### Only HMAC encrypted signature, with custom parameters 'timestamp' and 'validity' (both optional): 
+```python
+from auth import Authenticate
+
+your_secret_key = 'RTk2eNs67Vpan3345pmrwYEBYsWXRXtGF3BKTFq8WMLLOLOL'
+
+time_in_epoch = '1671243840'
+sign_valid_time = '2000'
+
+auth = Authenticate(secretkey=your_secret_key,
+                    timestamp=time_in_epoch, validity=sign_valid_time)
+
+signature = auth.get_signature()
+
+print(signature)
+```
 ### Complete headers with non-encrypted api-key (NOT RECOMMENDED): 
 ```python
 from auth import Authenticate
