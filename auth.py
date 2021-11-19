@@ -19,7 +19,10 @@ class Authenticate:
         self.apikey = apikey
         self.encryption = encryption
 
-    def get_headers(self) -> str:
+    def get_headers(self, market: str = None,
+                    amount: str = None,
+                    price: str = None,
+                    otype: str = None) -> str:
 
         if self.encryption:
             if self.clientid and self.secretkey:
@@ -27,15 +30,21 @@ class Authenticate:
                 try:
                     '''Generating signature'''
                     bSecretKey = bytes(self.secretkey, encoding='utf8')
-                    signature = hmac.new(bSecretKey, digestmod=hashlib.sha256)
 
-                    body['timestamp'] = self.timestamp
-                    body['validity'] = self.validity
+                    if market and amount and price and otype:
+                        body["market"] = market
+                        body["amount"] = amount
+                        body["price"] = price
+                        body["type"] = otype
+
+                    body["timestamp"] = self.timestamp
+                    body["validity"] = self.validity
 
                     sign_body = json.dumps(body, separators=(',', ':'))
                     bBody = bytes(sign_body, encoding='utf8')
 
-                    signature.update(bBody)
+                    signature = hmac.new(
+                        bSecretKey, bBody, digestmod=hashlib.sha256)
 
                 except Exception as e:
                     print(e)
@@ -55,31 +64,50 @@ class Authenticate:
                     'Content-Type': 'application/json',
                     'miraiex-access-key': self.apikey
                 }
-                print("Using non-encrypted authorization (NOT RECOMMENDED)")
+                print("Using non-encrypted authorization (NOT RECOMMENDED!)")
                 return headers
             else:
                 print("Missing parameter; 'apikey'. ")
 
-    def get_signature(self) -> str:
-        body = {}
-        try:
-            '''Generating signature'''
-            bSecretKey = bytes(self.secretkey, encoding='utf8')
-            signature = hmac.new(bSecretKey, digestmod=hashlib.sha256)
-            body['timestamp'] = self.timestamp
-            body['validity'] = self.validity
-            sign_body = json.dumps(body, separators=(',', ':'))
-            bBody = bytes(sign_body, encoding='utf8')
-            signature.update(bBody)
+    def get_signature(self, market: str = None,
+                      amount: str = None,
+                      price: str = None,
+                      otype: str = None) -> str:
+        """
+        Returning only the signature
+        """
+        if self.encryption:
+            if self.clientid and self.secretkey:
+                body = {}
+                try:
+                    '''Generating signature'''
+                    bSecretKey = bytes(self.secretkey, encoding='utf8')
+
+                    if market and amount and price and otype:
+                        body["market"] = market
+                        body["amount"] = amount
+                        body["price"] = price
+                        body["type"] = otype
+
+                    body["timestamp"] = self.timestamp
+                    body["validity"] = self.validity
+
+                    sign_body = json.dumps(body, separators=(',', ':'))
+                    bBody = bytes(sign_body, encoding='utf8')
+
+                    signature = hmac.new(
+                        bSecretKey, bBody, digestmod=hashlib.sha256)
+
+                except Exception as e:
+                    print(e)
+
             return signature.hexdigest()
-        except Exception as e:
-            return e
 
     def get_url_params(self) -> str:
         '''Generating URL-parameters.
         Must be included in URL when using HMAC encrypted secretkey.
         URL-parameter 'timestamp' and 'validity' must match with the
-        one used to generate signature'''
+        ones used to generate signature'''
 
         url = f"?timestamp={self.timestamp}&validity={self.validity}"
 

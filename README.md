@@ -21,6 +21,15 @@ For authentication using HMAC-encrypted signature and ClientID (RECOMMENDED):
 - secretkey = 'Your Secret Key'
 - clientid = 'Your ClientID'
 
+POST calls require the payload to be included in the HMAC signature body.
+All 4 arguments must be included, else the method will return body with only timestamp and validity.
+```python
+auth.get_headers(market="ETHNOK",
+                 amount="0.001",
+                 price="38000",
+                 otype="ask") 
+```
+
 For authentication using non-encrypted API Key. To avoid unintended use of API Key, var encryption must be set to 'False'. (NOT RECOMMENDED):
 
 - apikey = 'Your API Key'
@@ -48,6 +57,23 @@ auth = Authenticate(secretkey=your_secret_key, clientid=your_client_id)
 
 # Return headers:
 auth.get_headers() 
+# Return URL parameters: 
+auth.get_url_params()
+```
+### Complete headers for POST calls, including payload in HMAC signature body:
+```python
+from auth import Authenticate
+ 
+your_secret_key = 'Insert Secret Key'
+your_client_id = 'Insert ClientID'
+
+auth = Authenticate(secretkey=your_secret_key, clientid=your_client_id)
+
+# Return headers:
+auth.get_headers(market="ETHNOK",
+                 amount="0.001",
+                 price="38000",
+                 otype="ask") 
 # Return URL parameters: 
 auth.get_url_params()
 ```
