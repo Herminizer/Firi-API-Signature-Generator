@@ -11,7 +11,7 @@ from auth import Authenticate
 
 2. Declare an instance of the class Authenticate.
 ```python
-instance = Authenticate(argument, argument, ...)
+instance = Authenticate(argument=str, argument=str, ...)
 ```
 3. Pass in required and optional arguments:
 
