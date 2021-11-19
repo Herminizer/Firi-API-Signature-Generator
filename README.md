@@ -44,7 +44,7 @@ from auth import Authenticate
 your_secret_key = 'Insert Secret Key'
 your_client_id = 'Insert ClientID'
 
-auth = Authenticate(userkey=your_secret_key, clientid=your_client_id)
+auth = Authenticate(secretkey=your_secret_key, clientid=your_client_id)
 
 # Return headers:
 auth.get_headers() 
