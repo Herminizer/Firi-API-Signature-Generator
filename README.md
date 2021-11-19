@@ -119,3 +119,38 @@ auth.get_headers()
 # Return URL parameters:
 auth.get_url_params()
 ```
+
+### Full example of POST request using HMAC encrypted signature:
+```python
+from auth import Authenticate
+import requests
+
+auth = Authenticate(secretkey='Your SecretKey',
+                    clientid='Your ClientId',)
+
+# Payload must match with signature body, byte by byte
+payload = {
+    "market": "ETHNOK",
+    "amount": "0.001",
+    "price": "30000",
+    "type": "bid"
+}
+
+# To be included in url
+url_parameters = auth.get_url_params()
+
+# Full POST request header (with payload)
+headers_POST = auth.get_headers(market=payload["market"],
+                               amount=payload["amount"],
+                               price=payload["price"],
+                               otype=payload["type"])
+
+url = 'https://api.miraiex.com/v2/orders' + url_parameters
+
+requests.post(url, json=payload, headers=headers_POST)
+
+"""
+Response [201]:
+{'id': 2001333829}
+"""
+```
